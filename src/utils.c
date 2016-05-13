@@ -10,12 +10,26 @@
 
 #include <server.h>
 
-int	cmd_func_set(int (*cmd[14])(char **))
+void	cmd_func_set(int (*cmd[N_CMD])(char *, m_client *))
 {
-  /* cmd[0] = &test; */
+  cmd[0] = &my_user;
 }
 
-int	cmd_set(char cmd[14][5])
+int	cmd_init(char *cmd, char cmd_list[N_CMD + 1][L_CMD])
+{
+  int	i;
+
+  i = 0;
+  while (i < N_CMD)
+    {
+      if (strcmp(cmd, cmd_list[i]) == 0)
+	return (i);
+      i++;
+    }
+  return (-1);
+}
+
+void	cmd_set(char cmd[N_CMD][L_CMD])
 {
   int	i;
 
@@ -27,6 +41,4 @@ int	cmd_set(char cmd[14][5])
 	cmd[0][i] = '\0';
       i++;
     }
-  i = 0;
-  return (0);
 }

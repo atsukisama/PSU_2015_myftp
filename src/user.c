@@ -10,12 +10,13 @@
 
 #include <server.h>
 
-int	my_user(char **av, int c_fd)
+int	my_user(char *cmd, m_client *data)
 {
-  if (strcmp(av[1], "Anonymous") == 0)
+  if (strcmp(cmd, "Anonymous") == 0)
     {
-      dprintf(c_fd, LOGIN_OK);
+      dprintf(data->fd, LOGIN_OK);
       return (1);
     }
   return (0);
 }
+

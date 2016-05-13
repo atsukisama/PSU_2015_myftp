@@ -24,7 +24,8 @@
 # define MAX_CLIENT 42
 # define COFFE_IS_HOT 42
 
-
+# define N_CMD 14
+# define L_CMD 5
 # define ALLCMD "USER PASS CWD  CDUP QUIT DELE PWD  PASV PORT HELP NOOP RETR STOR LIST"
 
 # define LOGIN_OK "331 Please specify the password.\r\n"
@@ -34,9 +35,15 @@
 
 typedef struct		s_client
 {
+  int			fd;
+  char			cmd_list[N_CMD + 1][L_CMD];
+  int			(*cmd[N_CMD])(char *, struct s_client *);
   int			logged;
   char			*user;
   char			*pass;
+  char			*path;
 }			m_client;
+
+#include "../src/my.h"
 
 #endif

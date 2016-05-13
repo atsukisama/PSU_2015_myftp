@@ -8,7 +8,7 @@
 ## Last update Fri Dec  5 05:43:19 2014 kerebe_p
 ##
 
-SRC	= ./src/cmd_one.c \
+SRC	= ./src/user.c \
 	  ./src/main.c \
 	  ./src/utils.c \
 
