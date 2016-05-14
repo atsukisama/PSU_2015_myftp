@@ -1,4 +1,3 @@
-
 /*
 ** main.c for main in /home/kerebe_p/Epitech/PSU_2015_myftp
 ** 
@@ -45,6 +44,7 @@ int		handle_cmd(int client_fd, m_client data)
       else
 	cmd_type = 4;
     }
+  shutdown(client_fd, SHUT_RDWR);
   return (cmd_type);
 }
 
