@@ -12,11 +12,14 @@
 
 int	my_user(char *cmd, m_client *data)
 {
-  if (strcmp(cmd, "Anonymous") == 0)
-    {
-      dprintf(data->fd, LOGIN_OK);
-      return (1);
-    }
+  if (cmd == NULL)
+    return (dprintf(data->fd, DENIED));
+  free(data->user);
+  data->user = strdup(cmd);
+  data->logged = 1;
+  dprintf(data->fd, LOGIN_OK);
+  if (data->logged == 2)
+    dprintf(data->fd, LOGIN_CHANGE);
   return (0);
 }
 

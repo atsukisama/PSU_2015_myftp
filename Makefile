@@ -9,6 +9,9 @@
 ##
 
 SRC	= ./src/user.c \
+	  ./src/pass.c \
+	  ./src/pwd.c \
+	  ./src/quit.c \
 	  ./src/main.c \
 	  ./src/utils.c \
 

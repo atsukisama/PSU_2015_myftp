@@ -32,6 +32,11 @@
 # define NEED_LOGIN "530 Please login with USER and PASS.\r\n"
 # define WRONG_LOGIN "530 Login incorrect.\r\n"
 # define PASS_OK "230 Login successful.\r\n"
+# define PASS_KO "503 Login with USER first.\r\n"
+# define LOGIN_CHANGE "530 Can't change from guest user.\r\n"
+# define DENIED "530 Permission denied.\r\n"
+# define MY_QUIT "221 Goodbye.\r\n"
+# define LOGIN_KO "530 Login incorrect.\r\n"
 
 typedef struct		s_client
 {

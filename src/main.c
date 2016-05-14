@@ -1,3 +1,4 @@
+
 /*
 ** main.c for main in /home/kerebe_p/Epitech/PSU_2015_myftp
 ** 
@@ -10,25 +11,39 @@
 
 #include <server.h>
 
+void		set_client_data(int client_fd, m_client *data)
+{
+  data->logged = 0;
+  data->user = NULL;
+  data->pass = NULL;
+  data->path = strdup(data->path);
+  data->fd = client_fd;
+}
+
 int		handle_cmd(int client_fd, m_client data)
 {
-  int		cmd_type;
-  char		cmd[4096];
-  int		(*test[14])(char *, m_client *);
-
+  FILE		*fd;
+  size_t       	cmd_type;
+  char		*cmd;
 
   cmd_type = 0;
   dprintf(client_fd, "220 Welcome !\r\n");
-  data.fd = client_fd;
-  while (cmd_type != 1)
+  set_client_data(client_fd, &data);
+  fd = fdopen(client_fd, "rw");
+  while (cmd_type != 4)
     {
-      bzero(cmd, 4096);
-      read(client_fd, cmd, 4095);
-      cmd_type = cmd_init(strtok(cmd, " \t\n"), data.cmd_list);
-      if (cmd_type == -1)
-      	dprintf(client_fd, "UNKNOW\r\n");
+      cmd = NULL;
+      if (getline(&cmd, &cmd_type, fd) > 0)
+	{
+	  cmd_type = cmd_init(strtok(cmd, " \t\r\n"), data.cmd_list);
+	  if (cmd_type == -1)
+	    dprintf(client_fd, "500 Unknown command.\r\n");
+	  else
+	    data.cmd[cmd_type](strtok(NULL, " \t\r\n"), &data);
+	  free(cmd);
+	}
       else
-      	data.cmd[cmd_type](strtok(NULL, " \t\n"), &data);
+	cmd_type = 4;
     }
   return (cmd_type);
 }
@@ -44,6 +59,7 @@ int		handle_clients(int s_fd, struct sockaddr_in *s_in, char *path)
   cmd_set(client_base.cmd_list);
   cmd_func_set(client_base.cmd);
   client_base.path = path;
+  s_in_size = sizeof(s_in_client);
   while (COFFE_IS_HOT)
     {
       c_fd = accept(s_fd, (struct sockaddr *)&s_in_client, &s_in_size);

@@ -13,6 +13,11 @@
 void	cmd_func_set(int (*cmd[N_CMD])(char *, m_client *))
 {
   cmd[0] = &my_user;
+  cmd[1] = &my_pass;
+  //
+  cmd[4] = &my_quit;
+  cmd[6] = &my_pwd;
+  //
 }
 
 int	cmd_init(char *cmd, char cmd_list[N_CMD + 1][L_CMD])
@@ -20,6 +25,8 @@ int	cmd_init(char *cmd, char cmd_list[N_CMD + 1][L_CMD])
   int	i;
 
   i = 0;
+  if (cmd == NULL)
+    return (-1);
   while (i < N_CMD)
     {
       if (strcmp(cmd, cmd_list[i]) == 0)
