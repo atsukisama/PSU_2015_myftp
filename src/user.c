@@ -10,7 +10,7 @@
 
 #include <server.h>
 
-int	my_user(char *cmd, m_client *data)
+int	my_user(char *cmd, t_client *data)
 {
   if (cmd == NULL)
     return (dprintf(data->fd, DENIED));

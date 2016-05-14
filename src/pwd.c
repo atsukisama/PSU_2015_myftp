@@ -10,12 +10,18 @@
 
 #include <server.h>
 
-int	my_pwd(char *cmd, m_client *data)
+int	my_pwd(char *cmd, t_client *data)
 {
+  char	path[4096];
+
+  bzero(path, 4096);
   if (data->logged == 2)
     {
       dprintf(data->fd, "257 \"");
-      dprintf(data->fd, data->path);
+      getcwd(path, 4094);
+      path[4095] = '\n';
+      /* dprintf(data->fd, data->path); */
+      dprintf(data->fd, path);
       dprintf(data->fd, "\"\r\n");
       return (1);
     }

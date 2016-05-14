@@ -10,7 +10,7 @@
 
 #include <server.h>
 
-int	my_pass(char *cmd, m_client *data)
+int	my_pass(char *cmd, t_client *data)
 {
   if (strcmp(data->user, "Anonymous") == 0)
     {

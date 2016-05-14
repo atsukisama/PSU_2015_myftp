@@ -10,7 +10,7 @@
 
 #include <server.h>
 
-void		set_client_data(int client_fd, m_client *data)
+void		set_client_data(int client_fd, t_client *data)
 {
   data->logged = 0;
   data->user = NULL;
@@ -19,7 +19,15 @@ void		set_client_data(int client_fd, m_client *data)
   data->fd = client_fd;
 }
 
-int		handle_cmd(int client_fd, m_client data)
+void		clean_client(int client_fd, t_client *data)
+{
+  free(data->user);
+  free(data->pass);
+  free(data->path);
+  shutdown(client_fd, SHUT_RDWR);
+}
+
+int		handle_cmd(int client_fd, t_client data)
 {
   FILE		*fd;
   size_t       	cmd_type;
@@ -44,7 +52,6 @@ int		handle_cmd(int client_fd, m_client data)
       else
 	cmd_type = 4;
     }
-  shutdown(client_fd, SHUT_RDWR);
   return (cmd_type);
 }
 
@@ -52,7 +59,7 @@ int		handle_clients(int s_fd, struct sockaddr_in *s_in, char *path)
 {
   struct sockaddr_in	s_in_client;
   socklen_t		s_in_size;
-  m_client		client_base;
+  t_client		client_base;
   int			c_fd;
   int			pid;
 
@@ -118,6 +125,9 @@ int    		create_server(int port, char *path)
 int		main(int ac, char **av)
 {
   if (ac == 3)
-    create_server(atoi(av[1]), av[2]);
+    {
+      chdir(av[2]);
+      create_server(atoi(av[1]), av[2]);
+    }
   return (0);
 }

@@ -10,10 +10,11 @@
 
 #include <server.h>
 
-void	cmd_func_set(int (*cmd[N_CMD])(char *, m_client *))
+void	cmd_func_set(int (*cmd[N_CMD])(char *, t_client *))
 {
   cmd[0] = &my_user;
   cmd[1] = &my_pass;
+  cmd[2] = &my_cwd;
   //
   cmd[4] = &my_quit;
   cmd[6] = &my_pwd;

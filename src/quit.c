@@ -11,12 +11,11 @@
 #include <sys/socket.h>
 #include <server.h>
 
-int	my_quit(char *cmd, m_client *data)
+int	my_quit(char *cmd, t_client *data)
 {
-  free(data->user);
-  free(data->path);
-  free(data->pass);
+  /* free(data->user); */
+  /* free(data->path); */
+  /* free(data->pass); */
   dprintf(data->fd, MY_QUIT);
-  /* shutdown(data->fd, SHUT_RDWR); */
   return (0);
 }

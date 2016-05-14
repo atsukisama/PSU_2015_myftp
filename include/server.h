@@ -37,6 +37,9 @@
 # define DENIED "530 Permission denied.\r\n"
 # define MY_QUIT "221 Goodbye.\r\n"
 # define LOGIN_KO "530 Login incorrect.\r\n"
+# define NO_ENOUGH "501 Not enough arguments.\r\n"
+# define FAIL_CWD "550 Failed to change directory.\r\n"
+# define CWD_OK "250 Directory successfully changed.\r\n"
 
 typedef struct		s_client
 {
@@ -47,7 +50,7 @@ typedef struct		s_client
   char			*user;
   char			*pass;
   char			*path;
-}			m_client;
+}			t_client;
 
 #include "../src/my.h"
 
