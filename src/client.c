@@ -12,11 +12,14 @@
 
 void            set_client_data(int client_fd, t_client *data)
 {
+  char		*new;
+
   data->logged = 0;
+  data->mode = 0;
   data->user = NULL;
   data->pass = NULL;
-  data->fd_pasv = -1;
-  data->fd_pasv = -1;
+  data->fd_alt = -1;
+  data->port = -1;
   data->fd = client_fd;
 }
 
@@ -34,7 +37,7 @@ int             handle_cmd(int client_fd, t_client data)
   char          *cmd;
 
   cmd_type = 0;
-  dprintf(client_fd, "220 Welcome !\r\n");
+  dprintf(client_fd, "220 Welcome %s !\r\n", data.ip);
   set_client_data(client_fd, &data);
   fd = fdopen(client_fd, "rw");
   while (cmd_type != 4)
@@ -56,6 +59,23 @@ int             handle_cmd(int client_fd, t_client data)
   return (0);
 }
 
+void		my_set_ip(struct sockaddr_in *s_in_client, t_client *data)
+{
+  int		i;
+  char		*my_ip;
+
+  i = 0;
+  my_ip = inet_ntoa(s_in_client->sin_addr);
+  bzero(data->ip, 16);
+  strcpy(data->ip, my_ip);
+  while (data->ip[i])
+    {
+      if (data->ip[i] == '.')
+	data->ip[i] = ',';
+      i++;
+    }
+}
+
 int             handle_clients(int s_fd, struct sockaddr_in *s_in)
 {
   struct sockaddr_in    s_in_client;
@@ -72,6 +92,7 @@ int             handle_clients(int s_fd, struct sockaddr_in *s_in)
       c_fd = accept(s_fd, (struct sockaddr *)&s_in_client, &s_in_size);
       if (c_fd != -1)
 	{
+	  my_set_ip(&s_in_client, &client_base);
 	  if ((pid = fork()) == 0)
 	    handle_cmd(c_fd, client_base);
 	  else

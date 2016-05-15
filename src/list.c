@@ -11,28 +11,42 @@
 # define _GNU_SOURCE
 #include <server.h>
 
+void	my_print_list(char *cmd)
+{
+  char	*path;
+
+  if (cmd == NULL)
+    system("ls -la");
+  else
+    {
+      asprintf(&path, "ls -la %s", cmd);
+      system(path);
+      free(path);
+    }
+}
+
 int	my_list(char *cmd, t_client *data)
 {
   int	old;
-  char	*path;
+  int	fd;
 
-  if (data->fd_pasv < 0 || data->fd_port < 0)
+  if (data->mode > 0)
     return (dprintf(data->fd, NO_FD));
   if (data->logged == 2)
     {
+      fd = handle_mode_fd(data);
       dprintf(data->fd, LIST_ST);
-      old = dup(1);
-      dup2(data->fd, 1);
-      if (cmd == NULL)
-	system("ls -a");
-      else
-      	{
-      	  asprintf(&path, "ls -a %s", cmd);
-      	  system(path);
-      	  free(path);
-      	}
-      dup2(old, 1);
-      close(old);
+      if (fd != -1)
+	{
+	  old = dup(1);
+	  dup2(fd, 1);
+	  my_print_list(cmd);
+	  dup2(old, 1);
+	  close(old);
+	  shutdown(fd, SHUT_RDWR);
+	}
+      data->mode = 0;
+      shutdown(data->fd_alt, SHUT_RDWR);
       dprintf(data->fd, LIST_ED);
       return (1);
     }

@@ -49,17 +49,21 @@
 # define LIST_ST "150 Here comes the directory listing.\r\n"
 # define LIST_ED "226 Directory send OK.\r\n"
 # define NO_FD "425 Use PORT or PASV first.\r\n"
+# define M_PASV "227 Entering Passive Mode"
+# define FAIL_PASV "421 Failed to create new socket.\r\n"
 
 typedef struct		s_client
 {
+  int			mode;
   int			fd;
-  int			fd_pasv;
-  int			fd_port;
+  int			fd_alt;
   char			cmd_list[N_CMD + 1][L_CMD];
   int			(*cmd[N_CMD])(char *, struct s_client *);
   int			logged;
   char			*user;
   char			*pass;
+  char			ip[16];
+  int			port;
 }			t_client;
 
 #include "../src/my.h"

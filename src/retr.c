@@ -12,7 +12,7 @@
 
 int	my_retr(char *cmd, t_client *data)
 {
-  if (data->fd_pasv < 0 || data->fd_port < 0)
+  if (data->mode > 0)
     return (dprintf(data->fd, NO_FD));
   return (0);
 }

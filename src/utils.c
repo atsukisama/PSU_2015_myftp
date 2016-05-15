@@ -57,3 +57,14 @@ void	cmd_set(char cmd[N_CMD][L_CMD])
       i++;
     }
 }
+
+int			handle_mode_fd(t_client *data)
+{
+  struct sockaddr_in	s_in_client;
+  socklen_t		l;
+
+  l = sizeof(s_in_client);
+  if (data->mode == 1)
+    return (accept(data->fd_alt, (struct sockaddr *)&s_in_client, &l));
+  return (-1);
+}
