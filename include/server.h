@@ -50,6 +50,7 @@
 typedef struct		s_client
 {
   int			fd;
+  int			fd_pasv;
   char			cmd_list[N_CMD + 1][L_CMD];
   int			(*cmd[N_CMD])(char *, struct s_client *);
   int			logged;
