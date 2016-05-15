@@ -12,6 +12,8 @@
 
 int	my_pass(char *cmd, t_client *data)
 {
+  if (data->logged < 1)
+    return (dprintf(data->fd, PASS_KO));
   if (strcmp(data->user, "Anonymous") == 0)
     {
       if (cmd != NULL)
@@ -20,8 +22,6 @@ int	my_pass(char *cmd, t_client *data)
       dprintf(data->fd, PASS_OK);
       return (1);
     }
-  if (data->logged == 0)
-    return (dprintf(data->fd, PASS_KO));
   dprintf(data->fd, LOGIN_KO);
   return (0);
 }

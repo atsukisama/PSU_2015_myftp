@@ -37,6 +37,8 @@ int			add_socket_pasv(t_client *data)
 
 int	my_pasv(char *cmd, t_client *data)
 {
+  if (data->logged < 2)
+    return (dprintf(data->fd, NEED_LOGIN));
   if (add_socket_pasv(data) == -1)
     return (dprintf(data->fd, FAIL_PASV));
   dprintf(data->fd, "%s (%s,%d,%d)\r\n",
