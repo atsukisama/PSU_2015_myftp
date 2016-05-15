@@ -20,6 +20,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 # define MAX_CLIENT 42
 # define COFFE_IS_HOT 42
@@ -48,6 +50,9 @@
 # define HELP_ED "214 Help OK.\r\n"
 # define LIST_ST "150 Here comes the directory listing.\r\n"
 # define LIST_ED "226 Directory send OK.\r\n"
+# define RETR_ST "150 Opening BINARY mode data connection.\r\n"
+# define RETR_ED "226 Transfer complete.\r\n"
+# define RETR_FAIL "550 Failed to retrieve file.\r\n"
 # define NO_FD "425 Use PORT or PASV first.\r\n"
 # define M_PASV "227 Entering Passive Mode"
 # define FAIL_PASV "421 Failed to create new socket.\r\n"
