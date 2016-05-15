@@ -46,11 +46,14 @@
 # define HELP_ST "214-The following commands are recognized.\r\n"
 # define MY_HELP "USER\tPASS\tCWD\tCDUP\tQUIT\tDELE\tPWD\r\nPASV\tPORT\tHELP\tNOOP\tRETR\tSTOR\tLIST\r\n"
 # define HELP_ED "214 Help OK.\r\n"
+# define LIST_ST "150 Here comes the directory listing.\r\n"
+# define LIST_ED "226 Directory send OK.\r\n"
 
 typedef struct		s_client
 {
   int			fd;
   int			fd_pasv;
+  int			port_pasv;
   char			cmd_list[N_CMD + 1][L_CMD];
   int			(*cmd[N_CMD])(char *, struct s_client *);
   int			logged;

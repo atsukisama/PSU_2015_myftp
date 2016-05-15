@@ -16,10 +16,9 @@ int	my_list(char *cmd, t_client *data)
   int	old;
   char	*path;
 
-  if (cmd == NULL)
-    printf("LIST IS NULL\n");
   if (data->logged == 2)
     {
+      dprintf(data->fd, LIST_ST);
       old = dup(1);
       dup2(data->fd, 1);
       if (cmd == NULL)
@@ -32,6 +31,7 @@ int	my_list(char *cmd, t_client *data)
       	}
       dup2(old, 1);
       close(old);
+      dprintf(data->fd, LIST_ED);
       return (1);
     }
   dprintf(data->fd, NEED_LOGIN);
