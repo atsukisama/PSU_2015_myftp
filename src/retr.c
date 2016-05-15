@@ -12,7 +12,11 @@
 
 int	my_retr(char *cmd, t_client *data)
 {
+  if (data->logged < 2)
+    return (dprintf(data->fd, NEED_LOGIN));
   if (data->mode == 0)
     return (dprintf(data->fd, NO_FD));
+  if (cmd == NULL)
+    return (dprintf(data->fd, NO_ENOUGH));
   return (0);
 }
