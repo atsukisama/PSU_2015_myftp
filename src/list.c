@@ -11,6 +11,18 @@
 # define _GNU_SOURCE
 #include <server.h>
 
+void	my_dup_list(int fd, char *cmd)
+{
+  int	old;
+
+  old = dup(1);
+  dup2(fd, 1);
+  my_print_list(cmd);
+  dup2(old, 1);
+  close(old);
+  shutdown(fd, SHUT_RDWR);
+}
+
 void	my_print_list(char *cmd)
 {
   char	*path;
@@ -27,9 +39,10 @@ void	my_print_list(char *cmd)
 
 int	my_list(char *cmd, t_client *data)
 {
-  int	old;
   int	fd;
 
+  if (data->logged == 0)
+    return (dprintf(data->fd, NEED_LOGIN));
   if (data->mode == 0)
     return (dprintf(data->fd, NO_FD));
   if (data->logged == 2)
@@ -37,14 +50,7 @@ int	my_list(char *cmd, t_client *data)
       fd = handle_mode_fd(data);
       dprintf(data->fd, LIST_ST);
       if (fd != -1)
-	{
-	  old = dup(1);
-	  dup2(fd, 1);
-	  my_print_list(cmd);
-	  dup2(old, 1);
-	  close(old);
-	  shutdown(fd, SHUT_RDWR);
-	}
+	my_dup_list(fd, cmd);
       data->mode = 0;
       shutdown(data->fd_alt, SHUT_RDWR);
       dprintf(data->fd, LIST_ED);
