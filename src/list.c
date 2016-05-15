@@ -8,17 +8,28 @@
 ** Last update Sun May 15 00:09:29 2016 kerebe_p
 */
 
+# define _GNU_SOURCE
 #include <server.h>
 
 int	my_list(char *cmd, t_client *data)
 {
   int	old;
+  char	*path;
 
+  if (cmd == NULL)
+    printf("LIST IS NULL\n");
   if (data->logged == 2)
     {
       old = dup(1);
       dup2(data->fd, 1);
-      system("ls");
+      if (cmd == NULL)
+	system("ls -a");
+      else
+      	{
+      	  asprintf(&path, "ls -a %s", cmd);
+      	  system(path);
+      	  free(path);
+      	}
       dup2(old, 1);
       close(old);
       return (1);
