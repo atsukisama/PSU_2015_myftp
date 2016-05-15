@@ -12,6 +12,13 @@
 
 int	my_help(char *cmd, t_client *data)
 {
-  dprintf(data->fd, "NOT SET YET\r\n");
+  if (data->logged == 2)
+    {
+      dprintf(data->fd, HELP_ST);
+      dprintf(data->fd, MY_HELP);
+      dprintf(data->fd, HELP_ED);
+      return (1);
+    }
+  dprintf(data->fd, NEED_LOGIN);
   return (0);
 }

@@ -12,6 +12,7 @@
 
 int	my_cdup(char *cmd, t_client *data)
 {
+  (void)cmd;
   if (data->logged < 2)
     return (dprintf(data->fd, NEED_LOGIN));
   if (chdir("..") >= 0)

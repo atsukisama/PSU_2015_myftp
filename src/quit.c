@@ -13,6 +13,7 @@
 
 int	my_quit(char *cmd, t_client *data)
 {
+  (void)cmd;
   dprintf(data->fd, MY_QUIT);
   return (0);
 }

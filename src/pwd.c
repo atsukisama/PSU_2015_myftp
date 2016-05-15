@@ -14,6 +14,7 @@ int	my_pwd(char *cmd, t_client *data)
 {
   char	path[4096];
 
+  (void)cmd;
   bzero(path, 4096);
   if (data->logged == 2)
     {

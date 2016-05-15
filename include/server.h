@@ -43,6 +43,9 @@
 # define NOOP_OK "200 NOOP ok.\r\n"
 # define DELE_OK "250 DELE command successful.\r\n"
 # define DELE_KO "550 Failed to delete file.\r\n"
+# define HELP_ST "214-The following commands are recognized.\r\n"
+# define MY_HELP "USER\tPASS\tCWD\tCDUP\tQUIT\tDELE\tPWD\r\nPASV\tPORT\tHELP\tNOOP\tRETR\tSTOR\tLIST\r\n"
+# define HELP_ED "214 Help OK.\r\n"
 
 typedef struct		s_client
 {
