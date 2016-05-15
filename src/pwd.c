@@ -20,7 +20,6 @@ int	my_pwd(char *cmd, t_client *data)
       dprintf(data->fd, "257 \"");
       getcwd(path, 4094);
       path[4095] = '\n';
-      /* dprintf(data->fd, data->path); */
       dprintf(data->fd, path);
       dprintf(data->fd, "\"\r\n");
       return (1);

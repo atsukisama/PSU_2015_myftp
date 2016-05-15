@@ -13,9 +13,6 @@
 
 int	my_quit(char *cmd, t_client *data)
 {
-  /* free(data->user); */
-  /* free(data->path); */
-  /* free(data->pass); */
   dprintf(data->fd, MY_QUIT);
   return (0);
 }

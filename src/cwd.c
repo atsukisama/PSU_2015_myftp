@@ -12,15 +12,12 @@
 
 int	my_cwd(char *cmd, t_client *data)
 {
+  if (data->logged  < 2)
+    return (dprintf(data->fd, NEED_LOGIN));
   if (cmd == NULL)
     return (dprintf(data->fd, NO_ENOUGH));
   if (chdir(cmd) >= 0)
-    {
-      dprintf(data->fd, CWD_OK);
-      /* free(data->path); */
-      /* data->path = strdup(cmd); */
-      return (1);
-    }
+    return (dprintf(data->fd, CWD_OK));
   dprintf(data->fd, FAIL_CWD);
   return (0);
 }

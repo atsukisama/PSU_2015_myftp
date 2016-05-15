@@ -40,6 +40,9 @@
 # define NO_ENOUGH "501 Not enough arguments.\r\n"
 # define FAIL_CWD "550 Failed to change directory.\r\n"
 # define CWD_OK "250 Directory successfully changed.\r\n"
+# define NOOP_OK "200 NOOP ok.\r\n"
+# define DELE_OK "250 DELE command successful.\r\n"
+# define DELE_KO "550 Failed to delete file.\r\n"
 
 typedef struct		s_client
 {
@@ -49,7 +52,6 @@ typedef struct		s_client
   int			logged;
   char			*user;
   char			*pass;
-  char			*path;
 }			t_client;
 
 #include "../src/my.h"

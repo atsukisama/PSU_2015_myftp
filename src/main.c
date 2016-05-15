@@ -10,77 +10,6 @@
 
 #include <server.h>
 
-void		set_client_data(int client_fd, t_client *data)
-{
-  data->logged = 0;
-  data->user = NULL;
-  data->pass = NULL;
-  data->path = strdup(data->path);
-  data->fd = client_fd;
-}
-
-void		clean_client(int client_fd, t_client *data)
-{
-  free(data->user);
-  free(data->pass);
-  free(data->path);
-  shutdown(client_fd, SHUT_RDWR);
-}
-
-int		handle_cmd(int client_fd, t_client data)
-{
-  FILE		*fd;
-  size_t       	cmd_type;
-  char		*cmd;
-
-  cmd_type = 0;
-  dprintf(client_fd, "220 Welcome !\r\n");
-  set_client_data(client_fd, &data);
-  fd = fdopen(client_fd, "rw");
-  while (cmd_type != 4)
-    {
-      cmd = NULL;
-      if (getline(&cmd, &cmd_type, fd) > 0)
-	{
-	  cmd_type = cmd_init(strtok(cmd, " \t\r\n"), data.cmd_list);
-	  if (cmd_type == -1)
-	    dprintf(client_fd, "500 Unknown command.\r\n");
-	  else
-	    data.cmd[cmd_type](strtok(NULL, " \t\r\n"), &data);
-	  free(cmd);
-	}
-      else
-	cmd_type = 4;
-    }
-  return (cmd_type);
-}
-
-int		handle_clients(int s_fd, struct sockaddr_in *s_in, char *path)
-{
-  struct sockaddr_in	s_in_client;
-  socklen_t		s_in_size;
-  t_client		client_base;
-  int			c_fd;
-  int			pid;
-
-  cmd_set(client_base.cmd_list);
-  cmd_func_set(client_base.cmd);
-  client_base.path = path;
-  s_in_size = sizeof(s_in_client);
-  while (COFFE_IS_HOT)
-    {
-      c_fd = accept(s_fd, (struct sockaddr *)&s_in_client, &s_in_size);
-      if (c_fd != -1)
-	{
-	  if ((pid = fork()) == 0)
-	    handle_cmd(c_fd, client_base);
-	  else
-	    close(c_fd);
-	}
-    }
-  return (0);
-}
-
 int		bind_server(int fd, struct sockaddr_in *s_in)
 {
  if (bind(fd, (const struct sockaddr *)s_in, sizeof(*s_in)) == -1)
@@ -103,7 +32,7 @@ int	       	listen_server(int fd, int nbr_client_max)
   return (0);
 }
 
-int    		create_server(int port, char *path)
+int    		create_server(int port)
 {
   struct protoent	*pe;
   struct sockaddr_in	s_in;
@@ -118,7 +47,7 @@ int    		create_server(int port, char *path)
     return (1);
   if (bind_server(fd, &s_in) > 0 || listen_server(fd, MAX_CLIENT) > 0)
     return (1);
-  handle_clients(fd, &s_in, path);
+  handle_clients(fd, &s_in);
   return (0);
 }
 
@@ -127,7 +56,7 @@ int		main(int ac, char **av)
   if (ac == 3)
     {
       chdir(av[2]);
-      create_server(atoi(av[1]), av[2]);
+      create_server(atoi(av[1]));
     }
   return (0);
 }

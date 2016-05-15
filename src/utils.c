@@ -15,10 +15,17 @@ void	cmd_func_set(int (*cmd[N_CMD])(char *, t_client *))
   cmd[0] = &my_user;
   cmd[1] = &my_pass;
   cmd[2] = &my_cwd;
-  //
+  cmd[3] = &my_cdup;
   cmd[4] = &my_quit;
+  cmd[5] = &my_dele;
   cmd[6] = &my_pwd;
-  //
+  cmd[7] = &my_pasv;
+  cmd[8] = &my_port;
+  cmd[9] = &my_help;
+  cmd[10] = &my_noop;
+  cmd[11] = &my_retr;
+  cmd[12] = &my_stor;
+  cmd[13] = &my_list;
 }
 
 int	cmd_init(char *cmd, char cmd_list[N_CMD + 1][L_CMD])

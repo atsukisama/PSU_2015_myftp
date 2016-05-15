@@ -12,8 +12,18 @@ SRC	= ./src/user.c \
 	  ./src/pass.c \
 	  ./src/pwd.c \
 	  ./src/cwd.c \
+	  ./src/cdup.c \
 	  ./src/quit.c \
+	  ./src/dele.c \
+	  ./src/pasv.c \
+	  ./src/port.c \
+	  ./src/help.c \
+	  ./src/noop.c \
+	  ./src/retr.c \
+	  ./src/stor.c \
+	  ./src/list.c \
 	  ./src/main.c \
+	  ./src/client.c \
 	  ./src/utils.c \
 
 OBJ	= $(SRC:.c=.o)
