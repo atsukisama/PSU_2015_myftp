@@ -12,6 +12,7 @@
 
 int	my_retr(char *cmd, t_client *data)
 {
-  dprintf(data->fd, "NOT SET YET\r\n");
+  if (data->fd_pasv < 0 || data->fd_port < 0)
+    return (dprintf(data->fd, NO_FD));
   return (0);
 }

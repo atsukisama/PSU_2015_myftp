@@ -15,6 +15,8 @@ void            set_client_data(int client_fd, t_client *data)
   data->logged = 0;
   data->user = NULL;
   data->pass = NULL;
+  data->fd_pasv = -1;
+  data->fd_pasv = -1;
   data->fd = client_fd;
 }
 

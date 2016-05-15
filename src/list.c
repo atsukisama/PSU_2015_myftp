@@ -16,6 +16,8 @@ int	my_list(char *cmd, t_client *data)
   int	old;
   char	*path;
 
+  if (data->fd_pasv < 0 || data->fd_port < 0)
+    return (dprintf(data->fd, NO_FD));
   if (data->logged == 2)
     {
       dprintf(data->fd, LIST_ST);
