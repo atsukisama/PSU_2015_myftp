@@ -10,7 +10,7 @@
 
 #include <server.h>
 
-int			add_socket_pasv(t_client *data)
+int			add_socket_pasv(t_client *data, int mode, int port)
 {
   struct protoent       *pe;
   struct sockaddr_in    s_in;
@@ -18,7 +18,7 @@ int			add_socket_pasv(t_client *data)
   int                   fd;
 
   s_in.sin_family = AF_INET;
-  s_in.sin_port = htons(0);
+  s_in.sin_port = htons(port);
   s_in.sin_addr.s_addr = INADDR_ANY;
   if (!(pe = getprotobyname("TCP")))
     return (-1);
@@ -31,13 +31,13 @@ int			add_socket_pasv(t_client *data)
     return (-1);
   data->fd_alt = fd;
   data->port = ntohs(s_in.sin_port);
-  data->mode = 1;
+  data->mode = mode;
   return (fd);
 }
 
 int	my_pasv(char *cmd, t_client *data)
 {
-  if (add_socket_pasv(data) == -1)
+  if (add_socket_pasv(data, 1, 0) == -1)
     return (dprintf(data->fd, FAIL_PASV));
   dprintf(data->fd, "%s (%s,%d,%d)\r\n",
 	  M_PASV, data->ip, data->port / 256, data->port % 256);

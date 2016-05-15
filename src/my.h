@@ -27,7 +27,7 @@ int	       	listen_server(int fd, int nbr_client_max);
 int    	create_server(int port);
 int	my_noop(char *cmd, t_client *data);
 int	my_pass(char *cmd, t_client *data);
-int		add_socket_pasv(t_client *data);
+int		add_socket_pasv(t_client *data, int mode, int port);
 int	my_pasv(char *cmd, t_client *data);
 int	my_port(char *cmd, t_client *data);
 int	my_pwd(char *cmd, t_client *data);
