@@ -30,7 +30,7 @@ int	my_list(char *cmd, t_client *data)
   int	old;
   int	fd;
 
-  if (data->mode > 0)
+  if (data->mode == 0)
     return (dprintf(data->fd, NO_FD));
   if (data->logged == 2)
     {

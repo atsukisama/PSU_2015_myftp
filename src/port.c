@@ -12,6 +12,9 @@
 
 int	my_port(char *cmd, t_client *data)
 {
-  dprintf(data->fd, "NOT SET YET\r\n");
+  if (data->logged < 2)
+    return (dprintf(data->fd, NEED_LOGIN));
+  if (cmd == NULL)
+    return (dprintf(data->fd, NO_ENOUGH));
   return (0);
 }
